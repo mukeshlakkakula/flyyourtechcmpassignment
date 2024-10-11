@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Testing</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+      }
+
+      #task {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      img {
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      /* For the spacing of the scrollable section */
+      div[style] {
+        background-color: #e9ecef;
+        height: 1000px;
+      }
+
+      /* Optional: Style for larger screens */
+      @media (min-width: 768px) {
+        body {
+          padding: 40px;
+        }
+
+        button {
+          font-size: 18px;
+          padding: 12px 24px;
+        }
+
+        img {
+          width: 300px;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="task">
+      <h1>Task: Scroll down and click the button</h1>
+      <div></div>
+      <button id="testButton">Click Me!</button>
+      <img
+        src="https://via.placeholder.com/150"
+        alt="test image"
+        id="testImage"
+      />
+    </div>
+
+    <script>
+      document
+        .getElementById("testButton")
+        .addEventListener("click", function () {
+          const userId = new URLSearchParams(window.location.search).get(
+            "userId"
+          );
+          const taskId = new URLSearchParams(window.location.search).get(
+            "taskId"
+          );
+          fetch(`http://localhost:5000/api/tasks/task/${taskId}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId }),
+          })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => console.error("Error:", error));
+        });
+
+      window.addEventListener("scroll", function () {
+        const userId = new URLSearchParams(window.location.search).get(
+          "userId"
+        );
+        const taskId = new URLSearchParams(window.location.search).get(
+          "taskId"
+        );
+        fetch(`http://localhost:5000/api/tasks/task/${taskId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error("Error:", error));
+      });
+    </script>
+  </body>
+</html>
